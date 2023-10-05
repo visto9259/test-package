@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 defaults:
   run:
@@ -7,12 +7,12 @@ defaults:
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'website/**'
 
 jobs:
   deploy:
-    name: Deploy to GitHub Pages
+    name: Build and Deploy to GitHub Pages
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -25,13 +25,10 @@ jobs:
           node-version: 18
           cache: yarn
           cache-dependency-path: website/yarn.lock
-      - name: Check PWD
-        run: pwd
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build website
         run: yarn build
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
